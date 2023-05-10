@@ -48,7 +48,7 @@ export function toImports(imports: Import[], isCJS = false) {
     .join('\n')
 }
 
-function stringifyImportAlias(item: Import, isCJS = false) {
+export function stringifyImportAlias(item: Import, isCJS = false) {
   return (item.as === undefined || item.name === item.as)
     ? item.name
     : isCJS
