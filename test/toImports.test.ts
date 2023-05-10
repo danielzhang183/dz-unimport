@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Import } from '../src/types'
-import { toImports } from '../src'
+import { toImports } from '../src/utils'
 
 describe('toImports', () => {
   it('basic', () => {

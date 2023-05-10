@@ -58,5 +58,8 @@
   },
   "eslintConfig": {
     "extends": "@antfu"
+  },
+  "dependencies": {
+    "magic-string": "^0.30.0"
   }
 }

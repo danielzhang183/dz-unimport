@@ -1,4 +1,4 @@
-import type { Import } from './types'
+import type { Import } from '../types'
 
 export function toImports(imports: Import[], isCJS = false) {
   const map = toImportModuleMap(imports)

@@ -10,7 +10,7 @@ export interface Import {
   /**
    * Import as this name
    */
-  as: string
+  as?: string
   /**
    * Module specifier to import from
    */
