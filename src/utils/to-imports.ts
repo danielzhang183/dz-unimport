@@ -1,4 +1,5 @@
 import type { Import } from '../types'
+import { stringifyImportAlias } from '.'
 
 export function toImports(imports: Import[], isCJS = false) {
   const map = toImportModuleMap(imports)
@@ -46,14 +47,6 @@ export function toImports(imports: Import[], isCJS = false) {
       return entries
     })
     .join('\n')
-}
-
-export function stringifyImportAlias(item: Import, isCJS = false) {
-  return (item.as === undefined || item.name === item.as)
-    ? item.name
-    : isCJS
-      ? `${item.name}: ${item.as}`
-      : `${item.name} as ${item.as}`
 }
 
 function toImportModuleMap(imports: Import[]) {

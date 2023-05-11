@@ -2,8 +2,8 @@ import type MagicString from 'magic-string'
 import type { StaticImport } from 'mlly'
 import { findStaticImports } from 'mlly'
 import type { Import } from '../types'
-import { stringifyImportAlias } from './toImports'
-import { getMagicString, toImports } from '.'
+import { toImports } from './to-imports'
+import { getMagicString, stringifyImportAlias } from '.'
 
 export function addImportToCode(
   code: string | MagicString,

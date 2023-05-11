@@ -5,6 +5,8 @@
   },
   "editor.formatOnSave": true,
   "cSpell.words": [
+    "subfile",
+    "subfilepath",
     "unjs"
   ]
 }
