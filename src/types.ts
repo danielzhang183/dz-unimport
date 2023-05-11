@@ -2,23 +2,39 @@ export interface UnimportOptions {
   exclude: string[]
 }
 
-export interface Import {
-  /**
-   * Export name to be imported
-   */
-  name: string
-  /**
-   * Import as this name
-   */
-  as?: string
+export type ModuleId = string
+export type ImportName = string
+
+export interface ImportBase {
   /**
    * Module specifier to import from
    */
   from: string
   /**
-   * Disable auto import
+   * Priority of the import, if multiple imports have the same name, the one with the highest priority will be used
+   *
+   * @default 1
    */
+  priority?: number
+  /**
+     * Disable auto import
+     */
   disabled?: boolean
+  /**
+   * If this import is a type import
+   */
+  type?: boolean
+}
+
+export interface Import extends ImportBase {
+  /**
+   * Export name to be imported
+   */
+  name: ImportName
+  /**
+   * Import as this name
+   */
+  as?: ImportName
 }
 
 export interface AutoImportContext {
