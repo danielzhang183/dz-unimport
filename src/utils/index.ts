@@ -3,6 +3,7 @@ import type { Import } from '../types'
 
 export * from './add-imports'
 export * from './to-imports'
+export * from './preset'
 
 export function getString(code: string | MagicString) {
   if (typeof code === 'string')

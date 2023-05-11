@@ -37,6 +37,18 @@ export interface Import extends ImportBase {
   as?: ImportName
 }
 
+export type Preset = InlinePreset | PackagePreset
+
+export type PresetImport = Omit<Import, 'from'> | ImportName | [name: ImportName, as?: ImportName, from?: ModuleId]
+
+export interface InlinePreset extends ImportBase {
+  imports: (PresetImport | InlinePreset)[]
+}
+
+export interface PackagePreset {
+
+}
+
 export interface AutoImportContext {
   autoImports: never[]
   map: Map<string, Import>
