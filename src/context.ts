@@ -3,7 +3,7 @@ import type { BuiltinPresetName } from './presets'
 import { scanExports, scanFilesFromDir } from './scan-dirs'
 import type { ScanDirExportsOptions } from './scan-dirs'
 import type { Import, ModuleId, Preset, Thenable } from './types'
-import { dedupeImports, normalizeImports } from './utils'
+import { dedupeImports, normalizeImports, toExports } from './utils'
 
 export type Unimport = ReturnType<typeof createUnimport>
 
@@ -127,5 +127,6 @@ export function createUnimport(options: Partial<UnimportOptions>) {
     getImportMap: () => ctx.getImportMap(),
     modifyDynamicImports,
     clearDynamicImports,
+    toExports: async (filepath?: string) => toExports(await ctx.getImports(), filepath),
   }
 }

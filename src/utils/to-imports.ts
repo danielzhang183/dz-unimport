@@ -49,7 +49,7 @@ export function toImports(imports: Import[], isCJS = false) {
     .join('\n')
 }
 
-function toImportModuleMap(imports: Import[]) {
+export function toImportModuleMap(imports: Import[]) {
   const map: Record<string, Set<Import>> = {}
   for (const _import of imports) {
     if (!map[_import.from])

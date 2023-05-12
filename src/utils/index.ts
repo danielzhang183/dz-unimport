@@ -3,6 +3,7 @@ import type { Import } from '../types'
 
 export * from './add-imports'
 export * from './dedupe-imports'
+export * from './to-exports'
 export * from './to-imports'
 export * from './preset'
 
