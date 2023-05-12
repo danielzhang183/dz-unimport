@@ -1,8 +1,28 @@
 import type { BuiltinPresetName } from './presets'
+import type { ScanDirExportsOptions } from './scan-dirs'
 
 export interface UnimportOptions {
-  exclude: string[]
+  /**
+   * Auto import items
+   */
+  imports: Import[]
+  /**
+   * Auto import preset
+   */
   presets: (BuiltinPresetName | Preset)[]
+  /**
+   * Directories to scan for auto import
+   * @default []
+   */
+  dirs?: string[]
+  /**
+   * Options for scanning directories for auto import
+   */
+  dirsScanOptions?: ScanDirExportsOptions
+  /**
+   * Custom warning function
+   * @default console.warn
+   */
   warn: (msg: string) => string
 }
 
@@ -65,3 +85,24 @@ export interface PackagePreset {
 }
 
 export type Thenable<T> = Promise<T> | T
+
+export type PathFromResolver = (_import: Import) => string | undefined
+
+export interface TypeDeclaration {
+  /**
+   * Custom resolver for path of the import
+   */
+  resolvePath?: PathFromResolver
+  /**
+   * Append `export {}` to the end of the file
+   *
+   * @default true
+   */
+  exportHelper?: boolean
+  /**
+   * Auto-import for type exports
+   *
+   * @default true
+   */
+  typeReExports?: boolean
+}
