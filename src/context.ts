@@ -2,7 +2,7 @@ import { resolveBuiltinPresets } from './preset'
 import type { BuiltinPresetName } from './presets'
 import { scanExports, scanFilesFromDir } from './scan-dirs'
 import type { ScanDirExportsOptions } from './scan-dirs'
-import type { Import, ModuleId, Preset } from './types'
+import type { Import, ModuleId, Preset, Thenable } from './types'
 import { dedupeImports, normalizeImports } from './utils'
 
 export type Unimport = ReturnType<typeof createUnimport>
@@ -47,7 +47,7 @@ export function createUnimport(options: Partial<UnimportOptions>) {
 
   const ctx: UnimportContext = {
     options,
-    staticImports: [],
+    staticImports: [...(options.imports || [])].filter(Boolean),
     dynamicImports: [],
     async getImports() {
       await resolvePromise
@@ -90,8 +90,22 @@ export function createUnimport(options: Partial<UnimportOptions>) {
     return _combinedImports
   }
 
+  async function modifyDynamicImports(fn: (imports: Import[]) => Thenable<void | Import[]>) {
+    const result = await fn(ctx.dynamicImports)
+    if (Array.isArray(result))
+      ctx.dynamicImports = result
+    ctx.invalidate()
+  }
+
+  function clearDynamicImports() {
+    ctx.dynamicImports.length = 0
+    ctx.invalidate()
+  }
+
   async function scanImportsFromFile(filepath: string) {
-    return await scanExports(filepath)
+    const additions = await scanExports(filepath)
+    await modifyDynamicImports(imports => imports.filter(i => i.from !== filepath).concat(additions))
+    return additions
   }
 
   async function scanImportsFromDir(dirs = ctx.options.dirs || [], options = ctx.options.dirsScanOptions) {
@@ -111,5 +125,7 @@ export function createUnimport(options: Partial<UnimportOptions>) {
     scanImportsFromFile,
     getImports: () => ctx.getImports(),
     getImportMap: () => ctx.getImportMap(),
+    modifyDynamicImports,
+    clearDynamicImports,
   }
 }

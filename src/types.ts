@@ -64,11 +64,4 @@ export interface PackagePreset {
 
 }
 
-export interface AutoImportContext {
-  autoImports: never[]
-  map: Map<string, Import>
-  matchRE: RegExp
-  transform: {
-    exclude: string[] | RegExp[]
-  }
-}
+export type Thenable<T> = Promise<T> | T
