@@ -1,5 +1,9 @@
+import type { BuiltinPresetName } from './presets'
+
 export interface UnimportOptions {
   exclude: string[]
+  presets: (BuiltinPresetName | Preset)[]
+  warn: (msg: string) => string
 }
 
 export type ModuleId = string

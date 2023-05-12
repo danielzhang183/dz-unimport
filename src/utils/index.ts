@@ -2,6 +2,7 @@ import MagicString from 'magic-string'
 import type { Import } from '../types'
 
 export * from './add-imports'
+export * from './dedupe-imports'
 export * from './to-imports'
 export * from './preset'
 
@@ -15,6 +16,13 @@ export function getMagicString(code: string | MagicString) {
   if (typeof code === 'string')
     return new MagicString(code)
   return code
+}
+
+export function normalizeImports(imports: Import[]): Import[] {
+  for (const _import of imports)
+    _import.as = _import.as ?? _import.name
+
+  return imports
 }
 
 export function stringifyImportAlias(item: Import, isCJS = false) {

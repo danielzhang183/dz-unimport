@@ -58,7 +58,10 @@
     "vue": "^3.2.47"
   },
   "eslintConfig": {
-    "extends": "@antfu"
+    "extends": "@antfu",
+    "rules": {
+      "@typescript-eslint/no-use-before-define": "off"
+    }
   },
   "dependencies": {
     "fast-glob": "^3.2.12",
