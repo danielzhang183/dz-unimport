@@ -5,7 +5,7 @@ export interface UnimportOptions {
 export type ModuleId = string
 export type ImportName = string
 
-export interface ImportBase {
+export interface ImportCommon {
   /**
    * Module specifier to import from
    */
@@ -26,7 +26,7 @@ export interface ImportBase {
   type?: boolean
 }
 
-export interface Import extends ImportBase {
+export interface Import extends ImportCommon {
   /**
    * Export name to be imported
    */
@@ -41,7 +41,7 @@ export type Preset = InlinePreset | PackagePreset
 
 export type PresetImport = Omit<Import, 'from'> | ImportName | [name: ImportName, as?: ImportName, from?: ModuleId]
 
-export interface InlinePreset extends ImportBase {
+export interface InlinePreset extends ImportCommon {
   imports: (PresetImport | InlinePreset)[]
 }
 
