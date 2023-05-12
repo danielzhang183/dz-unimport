@@ -1,4 +1,6 @@
-import type { InlinePreset, Preset } from './types'
+import type { BuiltinPresetName } from './presets'
+import { builtinPresets } from './presets'
+import type { Import, ImportCommon, InlinePreset, Preset } from './types'
 
 /**
  * Common properties for import item and preset
@@ -6,7 +8,7 @@ import type { InlinePreset, Preset } from './types'
 const commonProps: (keyof ImportCommon)[] = ['from', 'priority', 'disabled', 'meta', 'type']
 
 export async function resolvePreset(preset: Preset) {
-  const imports: Preset[] = []
+  const imports: Import[] = []
 
   const common = {} as ImportCommon
   commonProps.forEach((i) => {
@@ -28,4 +30,15 @@ export async function resolvePreset(preset: Preset) {
   }
 
   return imports
+}
+
+export async function resolveBuiltinPresets(presets: (BuiltinPresetName | Preset)[]): Promise<Import[]> {
+  const resolved = await Promise.all(presets.map(async (p) => {
+    let preset = typeof p === 'string' ? builtinPresets[p] : p
+    if (typeof preset === 'function')
+      preset = preset()
+    return await resolvePreset(preset)
+  }))
+
+  return resolved.flat()
 }

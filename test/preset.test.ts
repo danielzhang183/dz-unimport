@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { resolvePreset } from '../src/preset'
-import { defineUnimportPreset } from '../src/utils'
+import { resolveBuiltinPresets, resolvePreset } from '../src/preset'
+import { defineUnimportPreset } from '../src'
 
 describe('preset', () => {
   it('resolve', async () => {
@@ -59,6 +59,81 @@ describe('preset', () => {
           "disabled": true,
           "from": "vue-nested",
           "name": "toRef",
+        },
+      ]
+    `)
+  })
+
+  it('built-in presets', async () => {
+    expect(
+      await resolveBuiltinPresets([
+        'vue-router',
+      ]),
+    ).toMatchInlineSnapshot(`
+      [
+        {
+          "as": "useRouter",
+          "from": "vue-router",
+          "name": "useRouter",
+        },
+        {
+          "as": "useRoute",
+          "from": "vue-router",
+          "name": "useRoute",
+        },
+        {
+          "as": "useLink",
+          "from": "vue-router",
+          "name": "useLink",
+        },
+        {
+          "as": "onBeforeRouteLeave",
+          "from": "vue-router",
+          "name": "onBeforeRouteLeave",
+        },
+        {
+          "as": "onBeforeRouteUpdate",
+          "from": "vue-router",
+          "name": "onBeforeRouteUpdate",
+        },
+      ]
+    `)
+  })
+
+  it('resolve with meta', async () => {
+    expect(
+      await resolvePreset(defineUnimportPreset({
+        from: 'vue',
+        imports: [
+          'ref',
+          {
+            name: 'toRefs',
+            from: 'vue-alias',
+            meta: {
+              docsUrl: 'https://vuejs.org/api/reactivity-utilities.html#torefs',
+            },
+          },
+        ],
+        meta: {
+          docsUrl: 'https://vuejs.org',
+        },
+      })),
+    ).toMatchInlineSnapshot(`
+      [
+        {
+          "as": "ref",
+          "from": "vue",
+          "meta": {
+            "docsUrl": "https://vuejs.org",
+          },
+          "name": "ref",
+        },
+        {
+          "from": "vue-alias",
+          "meta": {
+            "docsUrl": "https://vuejs.org/api/reactivity-utilities.html#torefs",
+          },
+          "name": "toRefs",
         },
       ]
     `)

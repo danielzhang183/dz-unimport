@@ -9,7 +9,7 @@ export interface ImportCommon {
   /**
    * Module specifier to import from
    */
-  from: string
+  from: ModuleId
   /**
    * Priority of the import, if multiple imports have the same name, the one with the highest priority will be used
    *
@@ -20,6 +20,17 @@ export interface ImportCommon {
      * Disable auto import
      */
   disabled?: boolean
+  /**
+   * Metadata of the import
+   */
+  meta?: {
+    /** Short description of the import */
+    description?: string
+    /** URL to the documentation */
+    docsUrl?: string
+    /** Additional metadata */
+    [key: string]: any
+  }
   /**
    * If this import is a type import
    */
@@ -37,7 +48,7 @@ export interface Import extends ImportCommon {
   as?: ImportName
 }
 
-export type Preset = InlinePreset | PackagePreset
+export type Preset = InlinePreset
 
 export type PresetImport = Omit<Import, 'from'> | ImportName | [name: ImportName, as?: ImportName, from?: ModuleId]
 
