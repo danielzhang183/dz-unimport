@@ -1,6 +1,6 @@
-import type { Import, TypeDeclaration } from '../types'
+import type { Import, TypeDeclarationOptions } from '../types'
 
-export function toTypeDeclarationFile(imports: Import[], options?: TypeDeclaration) {
+export function toTypeDeclarationFile(imports: Import[], options?: TypeDeclarationOptions) {
   const items = toTypeDeclarationItems(imports, options)
   const {
     exportHelper = true,
@@ -14,7 +14,7 @@ export function toTypeDeclarationFile(imports: Import[], options?: TypeDeclarati
   return declaration
 }
 
-export function toTypeDeclarationItems(imports: Import[], options?: TypeDeclaration) {
+export function toTypeDeclarationItems(imports: Import[], options?: TypeDeclarationOptions) {
   return imports
     .map((i) => {
       const from = (options?.resolvePath)?.(i) || (i.from).replace(/\.ts$/, '')
@@ -23,7 +23,7 @@ export function toTypeDeclarationItems(imports: Import[], options?: TypeDeclarat
     .sort()
 }
 
-export function toTypeReExports(imports: Import[], options?: TypeDeclaration) {
+export function toTypeReExports(imports: Import[], options?: TypeDeclarationOptions) {
   const importsMap = new Map<string, Import[]>()
   imports.forEach((i) => {
     const from = (options?.resolvePath)?.(i) || i.from
@@ -43,7 +43,7 @@ export function toTypeReExports(imports: Import[], options?: TypeDeclaration) {
 
       return [
         '// @ts-ignore',
-      `export type { ${names.join(', ')} } from '${from}'`,
+        `export type { ${names.join(', ')} } from '${from}'`,
       ]
     })
 

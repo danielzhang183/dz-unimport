@@ -88,7 +88,7 @@ export type Thenable<T> = Promise<T> | T
 
 export type PathFromResolver = (_import: Import) => string | undefined
 
-export interface TypeDeclaration {
+export interface TypeDeclarationOptions {
   /**
    * Custom resolver for path of the import
    */

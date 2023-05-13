@@ -2,8 +2,8 @@ import { resolveBuiltinPresets } from './preset'
 import type { BuiltinPresetName } from './presets'
 import { scanExports, scanFilesFromDir } from './scan-dirs'
 import type { ScanDirExportsOptions } from './scan-dirs'
-import type { Import, ModuleId, Preset, Thenable } from './types'
-import { dedupeImports, normalizeImports, toExports } from './utils'
+import type { Import, ModuleId, Preset, Thenable, TypeDeclarationOptions } from './types'
+import { dedupeImports, normalizeImports, toExports, toTypeDeclarationFile, toTypeReExports } from './utils'
 
 export type Unimport = ReturnType<typeof createUnimport>
 
@@ -108,6 +108,23 @@ export function createUnimport(options: Partial<UnimportOptions>) {
     return additions
   }
 
+  async function generateTypeDeclarations(options?: TypeDeclarationOptions) {
+    const opts: TypeDeclarationOptions = {
+      resolvePath: i => i.from,
+      ...options,
+    }
+    const {
+      typeReExports = true,
+    } = options || {}
+    const imports = await ctx.getImports()
+    let dts = toTypeDeclarationFile(imports.filter(i => !i.type), opts)
+    const typeOnly = imports.filter(i => i.type)
+    if (typeReExports && typeOnly.length)
+      dts += `\n${toTypeReExports(typeOnly, opts)}`
+
+    return dts
+  }
+
   async function scanImportsFromDir(dirs = ctx.options.dirs || [], options = ctx.options.dirsScanOptions) {
     const files = await scanFilesFromDir(dirs, options)
     return (await Promise.all(files.map(scanImportsFromFile))).flat()
@@ -128,5 +145,6 @@ export function createUnimport(options: Partial<UnimportOptions>) {
     modifyDynamicImports,
     clearDynamicImports,
     toExports: async (filepath?: string) => toExports(await ctx.getImports(), filepath),
+    generateTypeDeclarations: (options?: TypeDeclarationOptions) => generateTypeDeclarations(options),
   }
 }
