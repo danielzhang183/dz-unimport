@@ -1,7 +1,7 @@
 import { isAbsolute, relative } from 'path'
 import type { Import } from '../types'
 import { toImportModuleMap } from './to-imports'
-import { stringifyImportAlias } from '.'
+import { stringifyImportAlias } from './import-helpers'
 
 export function toExports(imports: Import[], fileDir?: string) {
   const map = toImportModuleMap(imports)

@@ -1,5 +1,5 @@
 import type { Import } from '../types'
-import { stringifyImportAlias } from '.'
+import { stringifyImportAlias } from './import-helpers'
 
 export function toImports(imports: Import[], isCJS = false) {
   const map = toImportModuleMap(imports)

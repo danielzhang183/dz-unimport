@@ -8,9 +8,9 @@ describe('scan-dirs', () => {
     expect((await scanFilesFromDir(dir)))
       .toMatchInlineSnapshot(`
         [
-          "/home/t04857/i/dz-unimport/test/fixtures/composables/PascalCased.ts",
-          "/home/t04857/i/dz-unimport/test/fixtures/composables/foo.ts",
-          "/home/t04857/i/dz-unimport/test/fixtures/composables/index.ts",
+          "/Users/dylanzhang/i/dz-unimport/test/fixtures/composables/PascalCased.ts",
+          "/Users/dylanzhang/i/dz-unimport/test/fixtures/composables/foo.ts",
+          "/Users/dylanzhang/i/dz-unimport/test/fixtures/composables/index.ts",
         ]
       `)
   })

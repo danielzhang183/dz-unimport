@@ -3,7 +3,8 @@ import type { StaticImport } from 'mlly'
 import { findStaticImports } from 'mlly'
 import type { Import } from '../types'
 import { toImports } from './to-imports'
-import { getMagicString, stringifyImportAlias } from '.'
+import { getMagicString } from './helpers'
+import { stringifyImportAlias } from './import-helpers'
 
 export function addImportToCode(
   code: string | MagicString,
