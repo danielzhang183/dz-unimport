@@ -1,7 +1,7 @@
 {
   "name": "dz-unimport",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "pnpm@8.5.0",
   "description": "Node starter template with using ts",
   "author": "Daniel Zhang",
@@ -37,7 +37,7 @@
     "dev": "unbuild --stub",
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish",
+    "release": "bumpp && npm run publish",
     "start": "esno src/index.ts",
     "test": "vitest",
     "coverage": "vitest --coverage",
