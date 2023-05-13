@@ -1,7 +1,7 @@
 {
   "name": "dz-unimport",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "packageManager": "pnpm@8.5.0",
   "description": "Node starter template with using ts",
   "author": "Daniel Zhang",
