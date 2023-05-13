@@ -26,6 +26,15 @@ export interface UnimportOptions {
   warn: (msg: string) => string
 }
 
+export interface UnimportContext {
+  options: Partial<UnimportOptions>
+  staticImports: Import[]
+  dynamicImports: Import[]
+  getImports(): Promise<Import[]>
+  getImportMap(): Promise<Map<string, Import>>
+  invalidate(): void
+}
+
 export type ModuleId = string
 export type ImportName = string
 

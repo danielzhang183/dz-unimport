@@ -1,2 +1,7 @@
+export * from './context'
 export * from './types'
 export * from './utils'
+export * from './preset'
+export * from './scan-dirs'
+export { builtinPresets } from './presets'
+export type { BuiltinPresetName } from './presets'

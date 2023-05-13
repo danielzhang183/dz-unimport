@@ -1,45 +1,9 @@
 import { resolveBuiltinPresets } from './preset'
-import type { BuiltinPresetName } from './presets'
 import { scanExports, scanFilesFromDir } from './scan-dirs'
-import type { ScanDirExportsOptions } from './scan-dirs'
-import type { Import, ModuleId, Preset, Thenable, TypeDeclarationOptions } from './types'
+import type { Import, ModuleId, Thenable, TypeDeclarationOptions, UnimportContext, UnimportOptions } from './types'
 import { dedupeImports, normalizeImports, toExports, toTypeDeclarationFile, toTypeReExports } from './utils'
 
 export type Unimport = ReturnType<typeof createUnimport>
-
-export interface UnimportOptions {
-  /**
-   * Auto import items
-   */
-  imports: Import[]
-  /**
-   * Auto import preset
-   */
-  presets: (BuiltinPresetName | Preset)[]
-  /**
-   * Directories to scan for auto import
-   * @default []
-   */
-  dirs?: string[]
-  /**
-   * Options for scanning directories for auto import
-   */
-  dirsScanOptions?: ScanDirExportsOptions
-  /**
-   * Custom warning function
-   * @default console.warn
-   */
-  warn: (msg: string) => string
-}
-
-export interface UnimportContext {
-  options: Partial<UnimportOptions>
-  staticImports: Import[]
-  dynamicImports: Import[]
-  getImports(): Promise<Import[]>
-  getImportMap(): Promise<Map<string, Import>>
-  invalidate(): void
-}
 
 export function createUnimport(options: Partial<UnimportOptions>) {
   let _combinedImports: Import[] | undefined
