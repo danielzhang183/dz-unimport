@@ -30,6 +30,10 @@ export interface UnimportContext {
   options: Partial<UnimportOptions>
   staticImports: Import[]
   dynamicImports: Import[]
+  /**
+   * Custom resolver to auto import id
+   */
+  resolveId?: (id: string, importee?: string) => Thenable<string | void>
   getImports(): Promise<Import[]>
   getImportMap(): Promise<Map<string, Import>>
   invalidate(): void
@@ -91,6 +95,34 @@ export interface InlinePreset extends ImportCommon {
 
 export interface PackagePreset {
 
+}
+
+export interface InjectImportsOptions {
+  /**
+   * Merge the existing imports
+   *
+   * @default false
+   */
+  mergeExisting?: boolean
+  /**
+   * If the module should be auto imported
+   *
+   * @default true
+   */
+  autoImport?: boolean
+  /**
+   * If the module should be transformed for virtual modules.
+   * Only available when `virtualImports` is set.
+   *
+   * @default true
+   */
+  transformVirtualImports?: boolean
+  /**
+   * Inject the imports at the end of other imports
+   *
+   * @default false
+   */
+  injectAtEnd?: boolean
 }
 
 export type Thenable<T> = Promise<T> | T

@@ -1,5 +1,7 @@
 export * from './add-imports'
 export * from './dedupe-imports'
+export * from './detect-imports'
+export * from './inject-imports'
 export * from './to-imports'
 export * from './import-helpers'
 export * from './to-exports'

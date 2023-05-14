@@ -1,7 +1,8 @@
+import type MagicString from 'magic-string'
 import { resolveBuiltinPresets } from './preset'
 import { scanExports, scanFilesFromDir } from './scan-dirs'
-import type { Import, ModuleId, Thenable, TypeDeclarationOptions, UnimportContext, UnimportOptions } from './types'
-import { dedupeImports, normalizeImports, toExports, toTypeDeclarationFile, toTypeReExports } from './utils'
+import type { Import, InjectImportsOptions, ModuleId, Thenable, TypeDeclarationOptions, UnimportContext, UnimportOptions } from './types'
+import { dedupeImports, detectImports, injectImports, normalizeImports, toExports, toTypeDeclarationFile, toTypeReExports } from './utils'
 
 export type Unimport = ReturnType<typeof createUnimport>
 
@@ -94,18 +95,27 @@ export function createUnimport(options: Partial<UnimportOptions>) {
     return (await Promise.all(files.map(scanImportsFromFile))).flat()
   }
 
+  async function injectImportsWithContext(code: string | MagicString, id?: string, injectOptions?: InjectImportsOptions) {
+    return await injectImports(code, id, ctx, {
+      ...options,
+      ...injectOptions,
+    })
+  }
+
   async function init() {
     if (ctx.options.dirs?.length)
       await scanImportsFromDir()
   }
 
-  // Public(expose) API
+  // Public(Exposed) API
   return {
     init,
     scanImportsFromDir,
     scanImportsFromFile,
     getImports: () => ctx.getImports(),
     getImportMap: () => ctx.getImportMap(),
+    detectImports: (code: string | MagicString) => detectImports(code, ctx),
+    injectImports: injectImportsWithContext,
     modifyDynamicImports,
     clearDynamicImports,
     toExports: async (filepath?: string) => toExports(await ctx.getImports(), filepath),

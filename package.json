@@ -48,7 +48,8 @@
     "local-pkg": "^0.4.3",
     "magic-string": "^0.30.0",
     "mlly": "^1.2.1",
-    "scule": "^1.0.0"
+    "scule": "^1.0.0",
+    "strip-literal": "^1.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.27.0",
